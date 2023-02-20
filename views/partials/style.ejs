@@ -1,0 +1,47 @@
+<style>
+    body {
+    background-color: rgb(32, 32, 32);
+    color: white;
+}
+
+audio {
+    width: 100%;
+}
+
+#players {
+    position: fixed;
+    bottom: 2px;
+    width: 100%;
+}
+
+#audio-player-container {
+    position: relative;
+    margin: 100px 5% auto 5%;
+    width: 90%;
+    max-width: calc(90% - 4px);
+    height: 80px;
+    background: black;
+}
+
+#audio-player-container::before {
+    position: absolute;
+    content: '';
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    left: -2px;
+    top: -2px;
+    background: linear-gradient(to left, #2600ff, #ff0000);
+    z-index: -1;
+}
+
+#current-song {
+    position: absolute;
+    top: -10px;
+    right: 5%;
+    padding: 0 5px;
+    margin: 0;
+    font-size: 28px;
+    background: black;
+    color: white;
+}
+</style>

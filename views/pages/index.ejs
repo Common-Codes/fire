@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fire</title>
+    <%- include('../partials/style') %>
+</head>
+<body>
+    <div id="title" style="position: relative; background-color: gray;">
+        <div class="logo" style="position: absolute;">
+            <img src="https://tallerthanshort.github.io/ut3.ggpht/icons/fire_logo.png" style="height: 64px; width: 64px;" title="Fire" style="position: absolute; left: 0;" alt="fire_logo" onclick="location.href='/'">
+        </div>
+        <h3>Fire - Beats are litt</h3>
+    </div>
+
+    <div id="players">
+        <div id="audio-player-container">
+            <p><%= title %></p>
+            <audio controls autoplay loop>
+                <source src="saiko-1.mpga">
+                Your device doesn't support our audio player!
+            </audio>
+        </div>
+    </div>
+</body>
+</html>
