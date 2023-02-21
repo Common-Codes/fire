@@ -3,6 +3,9 @@
 
 Some audio streaming service made by [Common-Codes](https://github.com/Common-Codes).
 
+If you want to use this whilst it's in development, `npm run dev` is your command :)
+Simply download or fork the repo, open in terminal, `npm i` for the dependencies and `npm run test` will start you up. `npm run dev` is for modifying code, if that's more your thing.
+
 ### Goal
 
 - Free Open Source music sharing platform.
