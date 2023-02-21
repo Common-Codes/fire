@@ -20,11 +20,16 @@ app.listen(port, function(){
     console.log('listening to some fire;' + port);
 })
 
+// a small let
+let srcv = "";
+
 app.get('/', function (req, res) {
     var title = "TallerThanShort - saiko-1";
+    var source = srcv;
     // render meta
     res.render('pages/index', {
         // EJS v meta
-        title: title
+        title: title,
+        source: source
     });
 });
