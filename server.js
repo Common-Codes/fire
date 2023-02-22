@@ -49,7 +49,6 @@ app.get('/:id', function (req, res) {
         if(doc.exists) {
             var title = doc.data().name;
             var source = doc.data().source;
-            console.log(`${req.params.id} ${title} and ${source}`);
         }
 
         // render meta
