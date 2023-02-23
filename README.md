@@ -16,6 +16,7 @@ Simply download or fork the repo, open in terminal, `npm i` for the dependencies
 - Firebase - Backend where almost all data is stored.
 - express - Middleware and API.
 - EJS - Frontend.
+- GoFile - Mass Storage.
 
 #### Optional Dependencies
 
