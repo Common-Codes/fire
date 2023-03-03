@@ -124,6 +124,14 @@ app.get('/', checkAuth, function (req, res) {
   });
 });
 
+// upload tracks
+app.get('/upload', checkAuth, function(req, res) {
+    res.render('pages/upload', {
+        title: "Upload a new Track",
+        username: req.username
+    })
+})
+
 // play tracks
 app.get('/:id', checkAuth, function (req, res) {
     const username = req.username;
