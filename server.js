@@ -13,7 +13,7 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.use(express.static('public'));
+//app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 // listen to app
@@ -35,23 +35,19 @@ const dbapp = firebase.initializeApp(firebaseConfig);
 const store = firebase.firestore();
 
 
+app.get('/auth', function (req, res) {
+    res.render('pages/auth');
+});
+
 app.get('/', function (req, res) {
     store.collection('tracks').get().then(snapshot => {
-        setupSite(snapshot.docs);
-    });
-
-    const setupSite = (data) => {
-        data.forEach(doc => {
-            const adv = doc.data();
-            const li = `<div onclick="location.href='/${doc.id}';" title="Listen to ${adv.name}"><div class="slot"><div class="banner"><img class="banner-img" src="${adv.cover}"></div><div class="track-descriptors"><div class="track-desc"><div class="track-name">${adv.name}</div><div class="track-owner">${adv.uploader}</div></div></div></div></div>`;
-            recommend += li;
+        const tracks = snapshot.docs.map(doc => doc.data());
+        res.render('pages/index', {
+            title: "Nothing's playing",
+            source: "",
+            tracks: tracks
         });
-    }
-
-    res.render('pages/index', {
-        title: "Nothing's playing",
-        source: ""
-    });
+    })
 });
 
 app.get('/:id', function (req, res) {
@@ -62,13 +58,19 @@ app.get('/:id', function (req, res) {
         if(doc.exists) {
             var title = `${doc.data().uploader} - ${doc.data().name}`;
             var source = doc.data().source;
+        } else {
+            var title = "Nothing's playing";
+            var source = "";
         }
 
         // render meta
-        res.render('pages/index', {
-            // EJS v meta
-            title: title,
-            source: source
-        });
+        store.collection('tracks').get().then(snapshot => {
+            const tracks = snapshot.docs.map(doc => doc.data());
+            res.render('pages/index', {
+                title: title,
+                source: source,
+                tracks: tracks
+            });
+        })
     })
 });
