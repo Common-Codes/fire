@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth | Fire</title>
+    <link rel="icon" type="image/png" href="https://tallerthanshort.github.io/ut3.ggpht/icons/fire_logo.png">
+    <meta name="description" content="Listen to your favorite music, upload your own, and share with the world, it's Fire">
+    <meta property="og:site_name" content="Fire, Beats are Litt 🔥">
+    <meta property="og:title" content="Login or Sign Up | Fire">
+    <meta property="og:image" content="https://tallerthanshort.github.io/ut3.ggpht/icons/fire_logo.png">
+    <meta property="og:description" content="Log in or create an account on Fire. Listen to your favorite music, upload your own, and share with the world, it's Fire">
+    <%- include('../partials/style') %>
+</head>
+<body>
+    <%- include('../partials/header') %>
+    <form id="login-form">
+        <h2>Login</h2>
+        <input type="email" name="email" placeholder="Email">
+        <input type="password" name="password" placeholder="Password" autocomplete="off">
+        <button type="submit">Login</button>
+      </form>
+      <form id="signup-form">
+        <h2>Signup</h2>
+        <input type="email" name="email" placeholder="Email">
+        <input type="text" name="username" placeholder="Username" autocomplete="off">
+        <input type="password" name="password" placeholder="Password" autocomplete="off">
+        <button type="submit">Signup</button>
+      </form>
+      <script>
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+
+        loginForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const email = loginForm.email.value;
+            const password = loginForm.password.value;
+            fetch('/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            })
+                .then(response => {
+                if (response.ok) {
+                    // User is authenticated
+                    window.location.href = '/';
+                } else {
+                    // Authentication failed
+                    response.text().then(errorMessage => {
+                    console.error(errorMessage);
+                    });
+                }
+                })
+                .catch(error => {
+                console.error(error);
+                });
+        });
+
+        signupForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const email = signupForm.email.value;
+            const password = signupForm.password.value;
+            const username = signupForm.username.value
+
+            fetch('/auth/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password, username })
+            })
+                .then(response => {
+                if (response.ok) {
+                    // User is authenticated
+                    window.location.href = '/';
+                } else {
+                    // Authentication failed
+                    response.text().then(errorMessage => {
+                    console.error(errorMessage);
+                    });
+                }
+                })
+                .catch(error => {
+                console.error(error);
+                });
+        });
+
+      </script>
+</body>
+</html>

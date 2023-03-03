@@ -1,6 +1,8 @@
 const express = require('express');
 const ejs = require('ejs');
 const firebase = require('firebase');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const port = process.env.port || 5500;
 
 // kickstart express
@@ -14,6 +16,10 @@ app.use(function(req, res, next) {
 });
 
 //app.use(express.static('public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+
 app.set('view engine', 'ejs');
 
 // listen to app
@@ -34,43 +40,121 @@ const dbapp = firebase.initializeApp(firebaseConfig);
 
 const store = firebase.firestore();
 
+// check auth status
+function checkAuth(req, res, next) {
+    const currentUser = firebase.auth().currentUser;
+    if (currentUser) {
+      const userRef = store.collection('users').doc(currentUser.uid);
+      userRef.get().then(doc => {
+        if (doc.exists) {
+          req.username = doc.data().username;
+        }
+        next();
+      });
+    } else {
+      next();
+    }
+  }
 
+// login page
 app.get('/auth', function (req, res) {
-    res.render('pages/auth');
+    res.render('pages/auth', {username: null});
 });
 
-app.get('/', function (req, res) {
-    store.collection('tracks').get().then(snapshot => {
-        const tracks = snapshot.docs.map(doc => doc.data());
-        res.render('pages/index', {
-            title: "Nothing's playing",
-            source: "",
-            tracks: tracks
-        });
-    })
+// create new users
+app.post('/auth/signup', (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+  
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        // User is authenticated
+        const user = userCredential.user;
+        const uid = user.uid;
+        // create the users doc
+        store.collection('users').doc(uid).set({
+            username: req.body.username
+        }).then(() => {
+            // User data saved successfully
+            res.status(200).send('OK');
+          }).catch((error) => {
+            // Error saving user data
+            const errorMessage = error.message;
+            console.error(errorMessage);
+            res.status(500).send(errorMessage);
+          });
+      })
+      .catch(error => {
+        // Authentication failed
+        const errorMessage = error.message;
+        console.error(errorMessage);
+        res.status(401).send(errorMessage);
+      });
+  });
+
+// authorise existing user
+app.post('/auth/login', (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+  
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(() => {
+        // User is authenticated
+        res.status(200).send('OK');
+      })
+      .catch(error => {
+        // Authentication failed
+        const errorMessage = error.message;
+        console.error(errorMessage);
+        res.status(401).send(errorMessage);
+      });
+  });
+
+// load frontend
+app.get('/', checkAuth, function (req, res) {
+  const username = req.username;
+  store.collection('tracks').get().then(snapshot => {
+    const tracks = snapshot.docs.map(doc => doc.data());
+    res.render('pages/index', {
+      title: "Nothing's playing",
+      source: "",
+      tracks: tracks,
+      username: username
+    });
+  });
 });
 
-app.get('/:id', function (req, res) {
+// play tracks
+app.get('/:id', checkAuth, function (req, res) {
+    const username = req.username;
     if(req.params.id === 'mobile.js') return; // for some reason the req.params.id keeps returning this 'mobile.js' value, so we're just gonna skip it.
     var toFind = req.params.id;
-    var docRef = store.collection('tracks').doc(toFind);
+    const docRef = store.collection('tracks').doc(toFind);
     docRef.get().then((doc) => {
-        if(doc.exists) {
-            var title = `${doc.data().uploader} - ${doc.data().name}`;
-            var source = doc.data().source;
-        } else {
-            var title = "Nothing's playing";
-            var source = "";
-        }
-
-        // render meta
+        if (doc.exists) {
+        const title = `${doc.data().uploader} - ${doc.data().name}`;
+        const source = doc.data().source;
         store.collection('tracks').get().then(snapshot => {
             const tracks = snapshot.docs.map(doc => doc.data());
             res.render('pages/index', {
-                title: title,
-                source: source,
-                tracks: tracks
+            title: title,
+            source: source,
+            tracks: tracks,
+            username: req.username
             });
-        })
-    })
-});
+        });
+        } else {
+        const title = "Nothing's playing";
+        const source = "";
+        store.collection('tracks').get().then(snapshot => {
+            const tracks = snapshot.docs.map(doc => doc.data());
+            res.render('pages/index', {
+            title: title,
+            source: source,
+            tracks: tracks,
+            username: req.username
+            });
+        });
+        }
+    });
+    });

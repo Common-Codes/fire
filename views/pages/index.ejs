@@ -14,7 +14,28 @@
     <%- include('../partials/style') %>
 </head>
 <body>
-    <%- include('../partials/header') %>
+    <%- include('../partials/header', { username: username }) %>
+    <div id="cookcons" style="display: none; width: 99%; height: 108%; align-items: center; flex-direction: column; justify-content: center; background-size: cover; background-position: center; background-color: rgba(0, 0, 0, 0.7); color: black; position: absolute; top: 0px; left: 0px;">
+        <div style="text-align: center; padding: 48px 26px 24px;  background-color: white; overflow: visible; box-sizing: border-box; display: block;">
+            <h2>Cookie Consent</h2>
+            <p>To use this site, you must first accept the usage of Cookies.</p>
+            <p>The only Cookies used on this site are essential to maintain functionality.</p>
+            <p>This site, cannot, does not and will not ever track you for any reason.</p>
+            <p>To opt-out of Cookies on this site, discontinue use of this website.</p>
+            <button style="border: none; background-color: cyan; text-transform: uppercase; font-weight: 600; cursor: pointer;" onclick="acceptCookie()">Accept Cookies</button>
+        </div>
+    </div>
+    <script>
+        const hasAcceptedCookies = localStorage.getItem('cookie');
+        if (!hasAcceptedCookies) {
+           document.getElementById("cookcons").style.display = 'block';
+        }
+        function acceptCookie() {
+            localStorage.setItem("cookie", 'true');
+            document.getElementById("cookcons").style.display = 'none';
+        }
+    </script>
+      
     <div class="app-container">
         <div class="gridz">
             <% for (const track of tracks) { %>
