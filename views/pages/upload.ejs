@@ -22,7 +22,7 @@
             <p>The only Cookies used on this site are essential to maintain functionality.</p>
             <p>This site, cannot, does not and will not ever track you for any reason.</p>
             <p>To opt-out of Cookies on this site, discontinue use of this website.</p>
-            <button style="border: none; background-color: cyan; text-transform: uppercase; font-weight: 600; cursor: pointer;" onclick="acceptCookie()">Accept Cookies</button>
+            <button style="border: none; background-color: blue; color: white; text-transform: uppercase; font-weight: 600; cursor: pointer;" onclick="acceptCookie()">Accept Cookies</button>
         </div>
     </div>
     <script>
@@ -38,7 +38,17 @@
       
     <div>
         <h3>Coming Soon!</h3>
-        <p>We're terribly sorry, but this feature hasn't been fully implemented yet. Check back soon to see more epic features!</p>
     </div>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <div>
+          <label for="name">Track Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div>
+          <label for="file">Track File</label>
+          <input type="file" id="file" name="file" accept="audio/*" required>
+        </div>
+        <button type="submit">Upload</button>
+      </form>      
 </body>
 </html>

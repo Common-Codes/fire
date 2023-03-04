@@ -102,8 +102,9 @@ audio {
 
 .app-container {
   display: flex;
-  flex-direction: column;
-  gap: 1px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
   padding: 1rem;
   margin: 0px auto;
   width: 92%;
@@ -111,7 +112,26 @@ audio {
   overflow: hidden;
 }
 
+.sad-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem;
+  overflow: visible;
+}
+
+.sad-left {
+  height: 250px;
+  overflow: visible;
+}
+
+.sad-right {
+  height: 250px;
+  overflow: visible;
+}
+
 .gridz {
+  flex: 1;
   gap: 1rem;
   display: grid;
   grid-auto-rows: 1fr;

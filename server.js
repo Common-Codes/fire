@@ -130,7 +130,51 @@ app.get('/upload', checkAuth, function(req, res) {
         title: "Upload a new Track",
         username: req.username
     })
-})
+});
+
+app.post('/upload', function (req, res) {
+  // check if file was uploaded
+  if (!req.files || Object.keys(req.files).length === 0) {
+      return res.status(400).send('No files were uploaded.');
+  }
+
+  // get the file from the request
+  const file = req.files.track;
+  const filename = file.name;
+
+  // create a new reference in Firebase Storage
+  const storageRef = firebase.storage().ref(`tracks/${filename}`);
+
+  // upload the file to Firebase Storage
+  storageRef.put(file.data)
+      .then(snapshot => {
+          // get the download URL for the file
+          storageRef.getDownloadURL()
+              .then(url => {
+                  // create a new document in the tracks collection with the download URL
+                  store.collection('tracks').add({
+                      name: req.body.name,
+                      uploader: req.body.uploader,
+                      source: url
+                  })
+                      .then(docRef => {
+                          res.redirect('/');
+                      })
+                      .catch(error => {
+                          console.error('Error adding document: ', error);
+                          res.redirect('/upload');
+                      });
+              })
+              .catch(error => {
+                  console.error('Error getting download URL: ', error);
+                  res.redirect('/upload');
+              });
+      })
+      .catch(error => {
+          console.error('Error uploading file: ', error);
+          res.redirect('/upload');
+      });
+});
 
 // play tracks
 app.get('/:id', checkAuth, function (req, res) {
