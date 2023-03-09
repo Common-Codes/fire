@@ -4,13 +4,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %> | Fire</title>
+    <% if (title) { %>
+    <title><%= title %> | Fire %></title>
+    <meta property="og:title" content="<%= title %> on Fire">
+    <meta property="og:description" content="<%= title %>, on Fire. Listen to your favorite music, upload your own, and share with the world, it's Fire">
+    <% } else { %>
+    <title>Welcome to Fire | Create, Upload, Share, it's Fire</title>
+    <meta property="og:title" content="Create, Upload, Share | it's Fire">
+    <meta property="og:description" content="Listen to your favorite music, upload your own, and share with the world, it's Fire">
+    <% } %>
     <link rel="icon" type="image/png" href="https://tallerthanshort.github.io/ut3.ggpht/icons/fire_logo.png">
     <meta name="description" content="Listen to your favorite music, upload your own, and share with the world, it's Fire">
-    <meta property="og:site_name" content="Fire, Beats are Litt 🔥">
-    <meta property="og:title" content="<%= title %> | Fire">
+    <meta property="og:site_name" content="Create, Upload, Share, it's Fire 🔥">
     <meta property="og:image" content="https://tallerthanshort.github.io/ut3.ggpht/icons/fire_logo.png">
-    <meta property="og:description" content="<%= title %>, on Fire. Listen to your favorite music, upload your own, and share with the world, it's Fire">
     <%- include('../partials/style') %>
 </head>
 <body>
@@ -55,6 +61,7 @@
             });
     </script>
 
+<% if (title) { %>
     <div id="players">
         <div id="audio-player-container">
             <p><%= title %></p>
@@ -64,5 +71,16 @@
             </audio>
         </div>
     </div>
+    <% } else { %>
+        <div id="players">
+            <div id="audio-player-container">
+                <p>Chose a track to start listening!</p>
+                <audio controls autoplay loop nodownload>
+                    <source src="<%= source %>">
+                    Your device doesn't support our audio player!
+                </audio>
+            </div>
+        </div>
+    <% } %>
 </body>
 </html>

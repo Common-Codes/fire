@@ -116,7 +116,7 @@ app.get('/', checkAuth, function (req, res) {
   store.collection('tracks').get().then(snapshot => {
     const tracks = snapshot.docs.map(doc => doc.data());
     res.render('pages/index', {
-      title: "Nothing's playing",
+      title: null,
       source: "",
       tracks: tracks,
       username: username
