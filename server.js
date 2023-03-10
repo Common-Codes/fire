@@ -186,13 +186,15 @@ app.get('/:id', checkAuth, function (req, res) {
         if (doc.exists) {
         const title = `${doc.data().uploader} - ${doc.data().name}`;
         const source = doc.data().source;
+        const covcer = doc.data().cover;
         store.collection('tracks').get().then(snapshot => {
             const tracks = snapshot.docs.map(doc => doc.data());
             res.render('pages/index', {
             title: title,
             source: source,
             tracks: tracks,
-            username: req.username
+            username: req.username,
+            embed: covcer
             });
         });
         } else {
@@ -204,7 +206,8 @@ app.get('/:id', checkAuth, function (req, res) {
             title: title,
             source: source,
             tracks: tracks,
-            username: req.username
+            username: req.username,
+            embed: "https://tallerthanshort.github.io/ut3.ggpht/icons/fire_logo.png"
             });
         });
         }
