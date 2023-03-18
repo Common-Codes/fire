@@ -37,18 +37,27 @@
     </script>
       
     <div>
-        <h3>Coming Soon!</h3>
+        <h3>This is where you can upload your own track to Fire 🔥!</h3>
+        <p>Simply fill in the form below (if you are logged in) and press upload! Your track and it's cover image will be stored on our servers and served to the public!</p>
+        <b style="color: red;">Don't forget to read our <a style="color: crimson;" href="">Content Policy</a> and make sure you are abiding our <a style="color: crimson;" href="">ToS</a></b>
     </div>
+    <br>
     <form action="/upload" method="POST" enctype="multipart/form-data">
         <div>
           <label for="name">Track Name</label>
           <input type="text" id="name" name="name" required>
         </div>
         <div>
-          <label for="file">Track File</label>
+          <label for="file">Track File (The Audio File)</label>
           <input type="file" id="file" name="file" accept="audio/*" required>
         </div>
+        <div>
+          <label for="cover">Track Cover</label>
+          <input type="file" id="cover" name="cover" accept="image/*" required>
+        </div>
         <button type="submit">Upload</button>
-      </form>      
+      </form>
+      
+          
 </body>
 </html>

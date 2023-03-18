@@ -3,6 +3,14 @@ const ejs = require('ejs');
 const firebase = require('firebase');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const multer = require('multer');
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 8 * 1024 * 1024 }
+}).fields([
+  { name: 'file', maxCount: 1 },
+  { name: 'cover', maxCount: 1 }
+]);
 const port = process.env.port || 5500;
 
 // kickstart express
@@ -132,48 +140,56 @@ app.get('/upload', checkAuth, function(req, res) {
     })
 });
 
-app.post('/upload', function (req, res) {
-  // check if file was uploaded
-  if (!req.files || Object.keys(req.files).length === 0) {
-      return res.status(400).send('No files were uploaded.');
-  }
 
-  // get the file from the request
-  const file = req.files.track;
-  const filename = file.name;
+app.post('/upload', async (req, res) => {
+  try {
+    upload(req, res, async function (err) {
+      if (err) {
+        console.error(err);
+        return res.status(500).send(err.message);
+      }
 
-  // create a new reference in Firebase Storage
-  const storageRef = firebase.storage().ref(`tracks/${filename}`);
+      const file = req.files['file'][0];
+      const coverIMG = req.files['cover'][0];
+      const name = req.body.name;
+      let uploader = "";
 
-  // upload the file to Firebase Storage
-  storageRef.put(file.data)
-      .then(snapshot => {
-          // get the download URL for the file
-          storageRef.getDownloadURL()
-              .then(url => {
-                  // create a new document in the tracks collection with the download URL
-                  store.collection('tracks').add({
-                      name: req.body.name,
-                      uploader: req.body.uploader,
-                      source: url
-                  })
-                      .then(docRef => {
-                          res.redirect('/');
-                      })
-                      .catch(error => {
-                          console.error('Error adding document: ', error);
-                          res.redirect('/upload');
-                      });
-              })
-              .catch(error => {
-                  console.error('Error getting download URL: ', error);
-                  res.redirect('/upload');
-              });
-      })
-      .catch(error => {
-          console.error('Error uploading file: ', error);
-          res.redirect('/upload');
+      // Find the current user's username and set it as the uploader
+      const userDoc = await store.collection("users").doc(firebase.auth().currentUser.uid).get();
+      uploader = userDoc.data().username;
+
+      // Upload files to Firebase Storage
+      const storageRef = firebase.storage().ref();
+      const fileRef = storageRef.child(file.originalname);
+      const coverRef = storageRef.child(coverIMG.originalname);
+      const [fileSnapshot, coverSnapshot] = await Promise.all([
+        fileRef.put(file.buffer),
+        coverRef.put(coverIMG.buffer)
+      ]);
+
+      // Create doc in Firestore tracks collection
+      const source = await fileSnapshot.ref.getDownloadURL();
+      const cover = await coverSnapshot.ref.getDownloadURL();
+      const trackDocRef = await store.collection('tracks').add({
+        name,
+        source,
+        cover,
+        uploader,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
+      
+      // Update the track document with the ID as the link
+      const trackId = trackDocRef.id;
+      await trackDocRef.update({
+        link: trackId
+      });
+
+      res.redirect('/');
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error.message);
+  }
 });
 
 // play tracks
