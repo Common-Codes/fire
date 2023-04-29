@@ -9,6 +9,7 @@
     <meta property="og:title" content="<%= title %> on Fire">
     <meta property="og:description" content="<%= title %>, on Fire. Listen to your favorite music, upload your own, and share with the world, it's Fire">
     <meta property="og:image" content="<%= embed %>">
+    <link as="image" rel="preload" href="<%= embed %>">
     <meta property="og:image:width" content="500">
     <meta property="og:image:height" content="500">
     <% } else { %>
@@ -16,10 +17,14 @@
     <meta property="og:title" content="Create, Upload, Share | it's Fire">
     <meta property="og:description" content="Listen to your favorite music, upload your own, and share with the world, it's Fire">
     <meta property="og:image" content="https://tallerthanshort.github.io/ut3.ggpht/icons/fire_logo.png">
+    <link rel="canonical" href="https://fire-glsp.onrender.com/">
+    <link rel="alternate" media="handheld" href="https://fire-glsp.onrender.com/">
+    <link rel="alternate" media="only screen and (max-width: 640px)" href="https://fire-glsp.onrender.com/">
     <% } %>
     <link rel="icon" type="image/png" href="https://tallerthanshort.github.io/ut3.ggpht/icons/fire_logo.png">
     <meta name="description" content="Listen to your favorite music, upload your own, and share with the world, it's Fire">
     <meta property="og:site_name" content="Create, Upload, Share, it's Fire 🔥">
+    <meta name="theme-color" content="rgba(33, 33, 33, 0.98)">
     <%- include('../partials/style') %>
 </head>
 <body>
