@@ -9,7 +9,7 @@ Simply download or fork the repo, open in terminal, `npm i` for the dependencies
 ### Goal
 
 - Free Open Source music sharing platform.
-- Raise money for [@TallerThanShort](https://github.com/TallerThanShort)
+- Raise money for [@TallerThanShort](https://github.com/TallerThanShort) & [The MND Association](https://www.mndassociation.org/)
 
 ### Dependencies
 
