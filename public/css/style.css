@@ -2,3 +2,204 @@ body {
     background-color: rgb(32, 32, 32);
     color: white;
 }
+
+audio {
+    width: 100%;
+}
+
+#players {
+    position: fixed;
+    bottom: 2px;
+    width: 100%;
+}
+
+#audio-player-container {
+    position: relative;
+    margin: 100px 5% auto 5%;
+    width: 90%;
+    max-width: calc(90% - 4px);
+    height: 80px;
+    background: black;
+}
+
+#audio-player-container::before {
+    position: absolute;
+    content: '';
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    left: -2px;
+    top: -2px;
+    background: linear-gradient(to left, #2600ff, #ff0000);
+    z-index: -1;
+}
+
+#current-song {
+    position: absolute;
+    top: -10px;
+    right: 5%;
+    padding: 0 5px;
+    margin: 0;
+    font-size: 28px;
+    background: black;
+    color: white;
+}
+
+.header-01oozD {
+  height: 60px;
+}
+
+.header-position {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    height: 44px;
+}
+
+.header-31oovZ {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  max-width: 100%;
+  justify-content: space-between;
+  height: 44px;
+  padding: 8px 16px;
+  background-color: black;
+  font-weight: 600;
+  line-height: 1.43;
+  color: white;
+}
+
+.header-V8Sgnz {
+  z-index:9998
+}
+
+.logo {
+    height: 46px;
+    vertical-align: text-bottom;
+    color: inherit;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 24px;
+  gap: 6px;
+}
+
+.link-1naFFL {
+  cursor:pointer;
+  text-decoration: none;
+}
+
+.link-1naFFL:hover {
+  text-decoration:underline
+}
+
+.link-2eyudH {
+  margin:10px;
+  padding:10px
+}
+
+.app-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 1rem;
+  margin: 0px auto;
+  width: 92%;
+  max-width: min(1250px, 100%);
+  overflow: hidden;
+}
+
+.sad-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem;
+  overflow: visible;
+}
+
+.sad-left {
+  height: 250px;
+  overflow: visible;
+}
+
+.sad-right {
+  height: 250px;
+  overflow: visible;
+}
+
+.gridz {
+  flex: 1;
+  gap: 1rem;
+  display: grid;
+  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+.slot {
+  height: 100%;
+  display: flex;
+  user-select: none;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 6px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.cover-art {
+  height: 270px;
+  overflow: hidden;
+}
+
+.cover-art2 {
+  height: 300px;
+  overflow: hidden;
+  border-radius: 0 0 6px 6px;
+}
+
+.cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: medium none;
+}
+
+.track-descriptors {
+  -moz-box-flex: 1;
+  flex-grow: 1;
+  background-color: rgb(76, 76, 76);
+}
+
+.track-desc {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 16px 8px 16px;
+}
+
+.track-owner {
+  font-weight: 600;
+  font-size: 13px;
+  gap: 4px;
+  display: flex;
+  -moz-box-align: center;
+  align-items: center;
+  -moz-box-pack: center;
+  justify-content: center;
+}
+
+.track-name {
+  font-weight: 600;
+  font-size: 18px;
+  gap: 4px;
+  display: flex;
+  -moz-box-align: center;
+  align-items: center;
+  -moz-box-pack: center;
+  justify-content: center;
+}

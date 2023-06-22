@@ -11,23 +11,25 @@
     <meta property="og:title" content="Login or Sign Up | Fire">
     <meta property="og:image" content="https://tallerthanshort.github.io/ut3.ggpht/icons/fire_logo.png">
     <meta property="og:description" content="Log in or create an account on Fire. Listen to your favorite music, upload your own, and share with the world, it's Fire">
-    <%- include('../partials/style') %>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <%- include('../partials/header') %>
-    <form id="login-form">
-        <h2>Login</h2>
-        <input type="email" name="email" placeholder="Email">
-        <input type="password" name="password" placeholder="Password" autocomplete="off">
-        <button type="submit">Login</button>
-      </form>
-      <form id="signup-form">
-        <h2>Signup</h2>
-        <input type="email" name="email" placeholder="Email">
-        <input type="text" name="username" placeholder="Username" autocomplete="off">
-        <input type="password" name="password" placeholder="Password" autocomplete="off">
-        <button type="submit">Signup</button>
-      </form>
+    <div>
+        <form id="login-form">
+            <h2>Login</h2>
+            <input type="email" name="email" placeholder="Email">
+            <input type="password" name="password" placeholder="Password" autocomplete="off">
+            <button type="submit">Login</button>
+          </form>
+          <form id="signup-form">
+            <h2>Signup</h2>
+            <input type="email" name="email" placeholder="Email">
+            <input type="text" name="username" placeholder="Username" autocomplete="off">
+            <input type="password" name="password" placeholder="Password" autocomplete="off">
+            <button type="submit">Signup</button>
+          </form>
+    </div>
       <script>
         const loginForm = document.getElementById('login-form');
         const signupForm = document.getElementById('signup-form');

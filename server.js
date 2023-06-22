@@ -23,7 +23,7 @@ app.use(function(req, res, next) {
     next();
 });
 
-//app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -63,6 +63,22 @@ function checkAuth(req, res, next) {
       next();
     }
   }
+
+// shuffle my arrays pls, ty
+
+function shuffle(array) {
+  var m = array.length, t, i;
+  
+  while(m){
+      i = Math.floor(Math.random() * m--);
+
+      t = array[m];
+      array[m] = array[i];
+      array[i] = t;
+  }
+
+  return array;
+}
 
 // login page
 app.get('/auth', function (req, res) {
@@ -122,7 +138,7 @@ app.post('/auth/login', (req, res) => {
 app.get('/', checkAuth, function (req, res) {
   const username = req.username;
   store.collection('tracks').get().then(snapshot => {
-    const tracks = snapshot.docs.map(doc => doc.data());
+    const tracks = shuffle(snapshot.docs.map(doc => doc.data()));
     res.render('pages/index', {
       title: null,
       source: "",
@@ -204,7 +220,7 @@ app.get('/:id', checkAuth, function (req, res) {
         const source = doc.data().source;
         const covcer = doc.data().cover;
         store.collection('tracks').get().then(snapshot => {
-            const tracks = snapshot.docs.map(doc => doc.data());
+            const tracks = shuffle(snapshot.docs.map(doc => doc.data()));
             res.render('pages/index', {
             title: title,
             source: source,
@@ -217,7 +233,7 @@ app.get('/:id', checkAuth, function (req, res) {
         const title = "Nothing's playing";
         const source = "";
         store.collection('tracks').get().then(snapshot => {
-            const tracks = snapshot.docs.map(doc => doc.data());
+            const tracks = shuffle(snapshot.docs.map(doc => doc.data()));
             res.render('pages/index', {
             title: title,
             source: source,
@@ -229,3 +245,8 @@ app.get('/:id', checkAuth, function (req, res) {
         }
     });
     });
+
+/*app.get('/users/:id', checkAuth, function (req, res) {
+  console.log("here")
+  res.send("hre")
+})*/

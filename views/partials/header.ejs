@@ -1,22 +1,25 @@
-<div id="title" style="position: relative;">
-    <div class="logo" style="position: absolute;">
-        <img src="https://tallerthanshort.github.io/ut3.ggpht/icons/fire_logo.png" style="height: 64px; width: 64px;">
-    </div>
-</div>
-<div class="row-31oovZ header-V8Sgnz">
-    <header class="wrapper-2bm6Le">
-        <nav class="nav-3_Sybl">
-            <div class="links-DGfZfm">
-                <ul id="navbarthings">
-                    <span class="link-1naFFL link-2eyudH" onclick="location.href='/'">Home</span>
-                    <% if (username) { %>
-                        <span class="link-1naFFL link-2eyudH"><%= username %></span><span class="link-1naFFL link-2eyudH" onclick="location.href='/upload';">Upload</span>
-                      <% } else { %>
-                        <span class="link-1naFFL link-2eyudH" onclick="location.href='/auth';">Log In</span>
-                      <% } %>
-                </ul>
-                <div id="credoauth2-scope"></div>
+<div class="header-01oozD">
+    <header class="header-position">
+        <div class="header-31oovZ header-V8Sgnz">
+            <div class="title">
+                    <img src="https://tallerthanshort.github.io/ut3.ggpht/icons/fire_logo.png" class="logo">
             </div>
-        </nav>
+            <div class="action-buttons">
+                <nav class="nav-3_Sybl">
+                    <div class="links-DGfZfm">
+                        <ul id="navbarthings">
+                            <% if (username) { %>
+                                <span class="link-1naFFL link-2eyudH" onclick="location.href='/upload';">Upload</span>
+                                <span class="link-1naFFL link-2eyudH"  onclick="location.href='/users/<%= username %>';"><%= username %></span>
+                            <% } else { %>
+                                <span class="link-1naFFL link-2eyudH" onclick="location.href='/'">Home</span>
+                                <span class="link-1naFFL link-2eyudH" onclick="location.href='/auth';">Log In</span>
+                            <% } %>
+                        </ul>
+                        <div id="credoauth2-scope"></div>
+                    </div>
+                </nav>
+            </div>
+        </div>
     </header>
 </div>
