@@ -29,50 +29,36 @@
 </head>
 <body>
     <%- include('../partials/cookies') %>
-    <%- include('../partials/header', { username: username, uid: uid }) %>
-      
-    <div class="app-container">
-        <div class="gridz">
-            <% for (const track of tracks) { %>
-                <div onclick="location.href='<%= track.link %>'" title="Listen to <%= track.name %> by <%= track.uploader %>">
-                    <div class="slot">
-                        <div class="cover-art">
-                            <img class="cover-img" src="<%= track.cover %>">
-                        </div>
-                        <div class="track-descriptors">
-                            <div class="track-desc">
-                                <div class="track-name"><%= track.name %></div>
-                                <div class="track-owner"><%= track.uploader %></div>
+    <%- include('../partials/header', { username: username }) %>
+
+    <div style="margin: 0 0 62px;">
+        <div class="profileBody">
+            <div style="display: block;">
+                <div style="padding-top: 0; padding-bottom: 0; padding-right: 0; padding-left: 0; margin-top: 0; margin-bottom: 24px; margin-right: 0; margin-left: 0;">
+                    <div style="padding-top: 0; padding-bottom: 0; padding-right: 0; padding-left: 0; margin-top: 0; margin-bottom: 40px; margin-right: 16px; margin-left: 16px;">
+                        <div class="profileImg">
+                            <div class="outterProImg">
+                                <img src="<%= embed %>" style="border-radius: 50%; width: 100%; height: auto; border: 2px solid black;">
+                            </div>
+                            <div class="info">
+                                <h3 title="Profiles are currently in beta" style="margin-top: 4px; margin-left: calc(90% - 29px); text-align: right;">BETA</h3>
                             </div>
                         </div>
-                    </div>
-                </div>
-              <% } %>
-              <a id="traplink" href="/" style="text-decoration: none;">
-                <div class="ad slot adslot">
-                    <div class="cover-art2">
-                            <img id="sad-left" class="cover-img" src="https://place-hold.it/200x200">
-                    </div>
-                    <div class="track-descriptors">
-                        <div class="track-desc">
-                            <div class="track-owner" style="color: white;">Advertisement</div>
+                        <div class="usernamePos">
+                            <h1 style="margin-bottom: 2px;"><%= title %></h1>
                         </div>
                     </div>
                 </div>
-            </a>
+            </div>
+        </div>
+    </div>
+    <div class="app-container">
+        <div class="gridz">
+            <img src="<%= embed %>">
         </div>
     </div>
     <br><br><br><br>
-    <script>
-        fetch('https://ad-ggpht.onrender.com/api/banner')
-            .then(result => result.json())
-            .then(response => {
-                const { name, forward } = response;
-                document.getElementById("sad-left").src = name;
-                document.getElementById("traplink").href = forward;
-            });
-    </script>
 
-    <%- include('../partials/player', { title: title, source: source }) %>
+<%- include('../partials/player', { title: title, source: source }) %>
 </body>
 </html>

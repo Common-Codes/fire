@@ -56,6 +56,7 @@ function checkAuth(req, res, next) {
       userRef.get().then(doc => {
         if (doc.exists) {
           req.username = doc.data().username;
+          req.uid = doc.id
         }
         next();
       });
@@ -143,7 +144,8 @@ app.get('/', checkAuth, function (req, res) {
       title: null,
       source: "",
       tracks: tracks,
-      username: username
+      username: username,
+      uid: req.uid
     });
   });
 });
@@ -152,7 +154,8 @@ app.get('/', checkAuth, function (req, res) {
 app.get('/upload', checkAuth, function(req, res) {
     res.render('pages/upload', {
         title: "Upload a new Track",
-        username: req.username
+        username: req.username,
+        uid: req.uid
     })
 });
 
@@ -210,7 +213,6 @@ app.post('/upload', async (req, res) => {
 
 // play tracks
 app.get('/:id', checkAuth, function (req, res) {
-    const username = req.username;
     if(req.params.id === 'mobile.js') return; // for some reason the req.params.id keeps returning this 'mobile.js' value, so we're just gonna skip it.
     var toFind = req.params.id;
     const docRef = store.collection('tracks').doc(toFind);
@@ -226,7 +228,8 @@ app.get('/:id', checkAuth, function (req, res) {
             source: source,
             tracks: tracks,
             username: req.username,
-            embed: covcer
+            embed: covcer,
+            uid: req.uid
             });
         });
         } else {
@@ -239,14 +242,36 @@ app.get('/:id', checkAuth, function (req, res) {
             source: source,
             tracks: tracks,
             username: req.username,
-            embed: "https://tallerthanshort.github.io/ut3.ggpht/icons/fire_logo.png"
+            embed: "https://tallerthanshort.github.io/ut3.ggpht/icons/fire_logo.png",
+            uid: req.uid
             });
         });
         }
     });
     });
 
-/*app.get('/users/:id', checkAuth, function (req, res) {
-  console.log("here")
-  res.send("hre")
-})*/
+app.get('/users/:id', checkAuth, function (req, res) {
+  if(req.params.id === 'mobile.js') return;
+
+  const docRef = store.collection('users').doc(req.params.id);
+  docRef.get().then((doc) => {
+    if (doc.exists) {
+      res.render('pages/userpage', {
+        source: null,
+        title: doc.data().username,
+        embed: doc.data().avatar,
+        username: req.username,
+        uid: req.uid
+      })
+    } else {
+      res.render('pages/userpage', {
+        source: null,
+        title: "User Not Found!",
+        embed: null,
+        username: req.username,
+        uid: req.uid
+      })
+    }
+  })
+  
+})
