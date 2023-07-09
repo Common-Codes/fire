@@ -1,7 +1,7 @@
 <% if (title) { %>
 <div id="players">
     <div id="audio-player-container">
-        <p><%= title %></p>
+        <p id="current-song"><%= title %></p>
         <audio controls autoplay loop nodownload>
             <source src="<%= source %>">
             Your device doesn't support our audio player!
@@ -11,7 +11,7 @@
 <% } else { %>
     <div id="players">
         <div id="audio-player-container">
-            <p>Chose a track to start listening!</p>
+            <p id="current-song">Chose a track to start listening!</p>
             <audio controls autoplay loop nodownload>
                 <source src="<%= source %>">
                 Your device doesn't support our audio player!

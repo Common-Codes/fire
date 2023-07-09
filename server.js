@@ -256,17 +256,21 @@ app.get('/users/:id', checkAuth, function (req, res) {
   const docRef = store.collection('users').doc(req.params.id);
   docRef.get().then((doc) => {
     if (doc.exists) {
-      res.render('pages/userpage', {
-        source: null,
-        title: doc.data().username,
-        embed: doc.data().avatar,
-        username: req.username,
-        uid: req.uid
+      store.collection("tracks").where("author", "==", req.params.id).get().then(snapshot => {
+        const tracks = snapshot.docs.map(doc => doc.data());
+        res.render('pages/userpage', {
+          source: null,
+          userpage: doc.data().username,
+          embed: doc.data().avatar,
+          username: req.username,
+          uid: req.uid,
+          tracks: tracks
+        })
       })
     } else {
       res.render('pages/userpage', {
         source: null,
-        title: "User Not Found!",
+        userpage: "User Not Found!",
         embed: null,
         username: req.username,
         uid: req.uid
